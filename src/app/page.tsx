@@ -91,7 +91,6 @@ export default function Home() {
   };
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    localStorage.setItem('selectedMonth', e.target.value);
     setSelectedMonth(parseInt(e.target.value));
   };
 
@@ -103,14 +102,11 @@ export default function Home() {
 
   useEffect(() => {
     const hourlyRate = parseFloat(localStorage.getItem('hourlyRate') || '0');
-    const localSelectedMonth = localStorage.getItem('selectedMonth');
-    const selectedMonth = localSelectedMonth !== null ? parseInt(localSelectedMonth) : new Date().getMonth();
     const necessitiesPercent = parseInt(localStorage.getItem('necessitiesPercent') || '40');
     const investmentPercent = parseInt(localStorage.getItem('investmentPercent') || '40');
     const funPercent = parseInt(localStorage.getItem('funPercent') || '20');
 
     setHourlyRate(hourlyRate);
-    setSelectedMonth(selectedMonth);
     setNecessitiesPercent(necessitiesPercent);
     setInvestmentPercent(investmentPercent);
     setFunPercent(funPercent);
@@ -120,7 +116,7 @@ export default function Home() {
     <div className="flex justify-center pt-16">
       <Card className="w-full max-w-xl">
         <CardHeader>
-          <CardTitle>Budget Calculator</CardTitle>
+          <CardTitle>Salary Calculator</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex gap-4">
@@ -146,20 +142,9 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-lg bg-gray-50 p-4">
+          <div>
             <h3 className="mb-4 font-medium">Budget Allocation (%)</h3>
             <div className="flex gap-4">
-              <div className="flex-1">
-                <label className="mb-2 block text-sm font-medium">Necessities</label>
-                <Input
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={necessitiesPercent}
-                  onChange={(e) => handlePercentChange('necessitiesPercent', e.target.value, setNecessitiesPercent)}
-                  className="w-full"
-                />
-              </div>
               <div className="flex-1">
                 <label className="mb-2 block text-sm font-medium">Investment</label>
                 <Input
@@ -168,6 +153,17 @@ export default function Home() {
                   max="100"
                   value={investmentPercent}
                   onChange={(e) => handlePercentChange('investmentPercent', e.target.value, setInvestmentPercent)}
+                  className="w-full"
+                />
+              </div>
+              <div className="flex-1">
+                <label className="mb-2 block text-sm font-medium">Necessities</label>
+                <Input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={necessitiesPercent}
+                  onChange={(e) => handlePercentChange('necessitiesPercent', e.target.value, setNecessitiesPercent)}
                   className="w-full"
                 />
               </div>
