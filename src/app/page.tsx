@@ -120,7 +120,7 @@ export default function Home() {
     <div className="flex justify-center pt-16">
       <Card className="w-full max-w-xl">
         <CardHeader>
-          <CardTitle>Budget Calculator</CardTitle>
+          <CardTitle>Salary Calculator</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex gap-4">
