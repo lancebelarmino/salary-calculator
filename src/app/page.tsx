@@ -33,8 +33,9 @@ export default function Home() {
       const breakdown = JSON.parse(localStorage.getItem('breakdown') || '{}');
       setBreakdown(breakdown);
 
-      const tab = JSON.parse(localStorage.getItem('tab') || 'calculator');
-      setTab(tab);
+      const tab = localStorage.getItem('tab');
+      const parsedTab = tab ? JSON.parse(tab) : 'calculator';
+      setTab(parsedTab);
 
       initialRender.current = false;
     }
