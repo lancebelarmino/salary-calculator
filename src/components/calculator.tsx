@@ -91,7 +91,7 @@ export function Calculator({ onBreakdownUpdate }: CalculatorProps) {
     <>
       {!initialRender.current && (
         <div className="rounded-md bg-white p-6">
-          <h3 className="mb-6 text-violet-500">Calculate Budget</h3>
+          <h3 className="mb-6 text-orange-500">Calculate Budget</h3>
 
           <div className="pb-10">
             <h5 className="mb-2 font-medium">Salary</h5>
@@ -129,11 +129,11 @@ export function Calculator({ onBreakdownUpdate }: CalculatorProps) {
             <div className="mb-2 flex justify-between align-middle">
               <h5 className="font-medium">Budget Allocation</h5>
               <Button
-                className="border-violet-200 hover:cursor-pointer"
+                className="border-orange-200 hover:cursor-pointer"
                 variant="outline"
                 onClick={handleAddBudgetItemClick}
               >
-                <Plus className="text-violet-500" />
+                <Plus className="text-orange-500" />
               </Button>
             </div>
 
