@@ -41,7 +41,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="grid place-items-center rounded-md pt-[4%]">
+    <div className="grid place-items-center rounded-md pt-[4%] pb-6">
       <div>
         {!initialRender.current && (
           <Tabs className="items-center gap-10" defaultValue="calculator" value={tab} onValueChange={setTab}>

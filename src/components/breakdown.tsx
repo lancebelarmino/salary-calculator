@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import type { Breakdown } from '@/app/page';
-import { Card } from './ui/card';
 
 interface BreakdownProps {
   breakdown: Breakdown | null;
@@ -173,8 +172,8 @@ export function Breakdown({ breakdown }: BreakdownProps) {
       </div>
       <div className="col-span-2 flex flex-col gap-6 rounded-md bg-white p-6">
         {breakdown &&
-          breakdown.budgetItems.map((item, index) => (
-            <div key={item.id} className="border-gray-200 pb-4 not-last:border-b">
+          breakdown.budgetItems.map((item) => (
+            <div key={item.id} className="border-gray-200 not-last:border-b not-last:pb-4">
               <p className="pb-6">{item.name}</p>
               {salary && (
                 <p className="pb-1 text-4xl font-medium">
