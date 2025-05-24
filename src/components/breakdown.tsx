@@ -110,8 +110,6 @@ export function Breakdown({ breakdown }: BreakdownProps) {
   const [salary, setSalary] = useState<Salary | null>(null);
   const [payPeriods, setPayPeriods] = useState<PayPeriod | null>(null);
 
-  console.log('lb-breakdown', breakdown);
-
   useEffect(() => {
     if (breakdown) {
       const sss = 1750;
@@ -142,8 +140,6 @@ export function Breakdown({ breakdown }: BreakdownProps) {
       });
     }
   }, [breakdown]);
-
-  console.log('lb-breakdown', breakdown);
 
   return (
     <div className="grid grid-cols-2 gap-4">

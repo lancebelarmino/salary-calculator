@@ -74,7 +74,6 @@ export function Calculator({ onBreakdownUpdate }: CalculatorProps) {
 
   useEffect(() => {
     if (initialRender.current) {
-      console.log('lb-initialRender running');
       const storedHourlyRate = localStorage.getItem('hourlyRate');
       if (storedHourlyRate) setHourlyRate(JSON.parse(storedHourlyRate));
 
