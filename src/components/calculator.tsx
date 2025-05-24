@@ -74,6 +74,7 @@ export function Calculator({ onBreakdownUpdate }: CalculatorProps) {
 
   useEffect(() => {
     if (initialRender.current) {
+      console.log('lb-initialRender running');
       const storedHourlyRate = localStorage.getItem('hourlyRate');
       if (storedHourlyRate) setHourlyRate(JSON.parse(storedHourlyRate));
 
@@ -88,106 +89,102 @@ export function Calculator({ onBreakdownUpdate }: CalculatorProps) {
   }, []);
 
   return (
-    <>
-      {!initialRender.current && (
-        <div className="rounded-md bg-white p-6">
-          <h3 className="mb-6 text-orange-500">Calculate Budget</h3>
+    <div className="rounded-md bg-white p-6">
+      <h3 className="mb-6 text-orange-500">Calculate Budget</h3>
 
-          <div className="pb-10">
-            <h5 className="mb-2 font-medium">Salary</h5>
-            <div className="flex gap-4">
+      <div className="pb-10">
+        <h5 className="mb-2 font-medium">Salary</h5>
+        <div className="flex gap-4">
+          <div className="flex-1">
+            <label className="mb-2 block text-sm font-medium">Hourly Rate (₱)</label>
+            <Input
+              className="w-full"
+              type="number"
+              value={hourlyRate}
+              onChange={(e: SyntheticEvent<HTMLInputElement>) =>
+                e.currentTarget.value === '' ? setHourlyRate('') : setHourlyRate(e.currentTarget.value)
+              }
+              placeholder="12"
+            />
+          </div>
+          <div className="flex-1">
+            <label className="mb-2 block text-sm font-medium">Month</label>
+            <select
+              className="w-full rounded border p-2"
+              value={selectedMonth}
+              onChange={(e: SyntheticEvent<HTMLSelectElement>) => setSelectedMonth(parseInt(e.currentTarget.value))}
+            >
+              {months.map((month, index) => (
+                <option key={month} value={index}>
+                  {month}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div className="mb-2 flex justify-between align-middle">
+          <h5 className="font-medium">Budget Allocation</h5>
+          <Button
+            className="border-orange-200 hover:cursor-pointer"
+            variant="outline"
+            onClick={handleAddBudgetItemClick}
+          >
+            <Plus className="text-orange-500" />
+          </Button>
+        </div>
+
+        <div className="pb-4">
+          {budgetItems.map((item) => (
+            <div key={item.id} className="group relative flex gap-4 pb-2">
               <div className="flex-1">
-                <label className="mb-2 block text-sm font-medium">Hourly Rate (₱)</label>
+                <label className="mb-2 block text-sm font-medium">Name</label>
+                <Input
+                  className="w-full"
+                  type="text"
+                  min="0"
+                  max="100"
+                  placeholder="Fun"
+                  value={item.name}
+                  onChange={(e) => handleBudgetItemChange(item.id, 'name', e.target.value)}
+                />
+              </div>
+
+              <div className="flex-1">
+                <label className="mb-2 block text-sm font-medium">Percentage</label>
                 <Input
                   className="w-full"
                   type="number"
-                  value={hourlyRate}
-                  onChange={(e: SyntheticEvent<HTMLInputElement>) =>
-                    e.currentTarget.value === '' ? setHourlyRate('') : setHourlyRate(e.currentTarget.value)
-                  }
-                  placeholder="12"
+                  min="0"
+                  max="100"
+                  placeholder="20"
+                  value={item.percentage}
+                  onChange={(e) => handleBudgetItemChange(item.id, 'percentage', e.target.value)}
                 />
               </div>
-              <div className="flex-1">
-                <label className="mb-2 block text-sm font-medium">Month</label>
-                <select
-                  className="w-full rounded border p-2"
-                  value={selectedMonth}
-                  onChange={(e: SyntheticEvent<HTMLSelectElement>) => setSelectedMonth(parseInt(e.currentTarget.value))}
-                >
-                  {months.map((month, index) => (
-                    <option key={month} value={index}>
-                      {month}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
 
-          <div>
-            <div className="mb-2 flex justify-between align-middle">
-              <h5 className="font-medium">Budget Allocation</h5>
-              <Button
-                className="border-orange-200 hover:cursor-pointer"
-                variant="outline"
-                onClick={handleAddBudgetItemClick}
+              <div
+                className="absolute top-1/2 right-[-18px] cursor-pointer opacity-0 group-hover:opacity-100"
+                onClick={() => setBudgetItems((prev) => prev.filter((budget) => budget.id !== item.id))}
               >
-                <Plus className="text-orange-500" />
-              </Button>
-            </div>
-
-            <div className="pb-4">
-              {budgetItems.map((item) => (
-                <div key={item.id} className="group relative flex gap-4 pb-2">
-                  <div className="flex-1">
-                    <label className="mb-2 block text-sm font-medium">Name</label>
-                    <Input
-                      className="w-full"
-                      type="text"
-                      min="0"
-                      max="100"
-                      placeholder="Fun"
-                      value={item.name}
-                      onChange={(e) => handleBudgetItemChange(item.id, 'name', e.target.value)}
-                    />
-                  </div>
-
-                  <div className="flex-1">
-                    <label className="mb-2 block text-sm font-medium">Percentage</label>
-                    <Input
-                      className="w-full"
-                      type="number"
-                      min="0"
-                      max="100"
-                      placeholder="20"
-                      value={item.percentage}
-                      onChange={(e) => handleBudgetItemChange(item.id, 'percentage', e.target.value)}
-                    />
-                  </div>
-
-                  <div
-                    className="absolute top-1/2 right-[-18px] cursor-pointer opacity-0 group-hover:opacity-100"
-                    onClick={() => setBudgetItems((prev) => prev.filter((budget) => budget.id !== item.id))}
-                  >
-                    <X className="text-red-500" size={16} />
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {hasSubmitted && (
-              <div className="mt-2 flex items-center justify-between">
-                {totalPercentage !== 100 && <div className="text-sm text-red-500">Percentages must add up to 100%</div>}
+                <X className="text-red-500" size={16} />
               </div>
-            )}
-
-            <div className="flex justify-end">
-              <Button onClick={handleNextBtnClick}>Next</Button>
             </div>
-          </div>
+          ))}
         </div>
-      )}
-    </>
+
+        {hasSubmitted && (
+          <div className="mt-2 flex items-center justify-between">
+            {totalPercentage !== 100 && <div className="text-sm text-red-500">Percentages must add up to 100%</div>}
+          </div>
+        )}
+
+        <div className="flex justify-end">
+          <Button onClick={handleNextBtnClick}>Next</Button>
+        </div>
+      </div>
+    </div>
   );
 }
